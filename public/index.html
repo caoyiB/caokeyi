@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="./css/all.css">
+    <link rel="stylesheet" href="./fonts/iconfont.css">
+    <script src="./scripts/libs/flexiable.js"></script>
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <div class="aaa">
+                <div>
+                    <span class="icon iconfont icon-arrow-left"></span>
+                </div>
+                <div>
+                    <input type="text" placeholder="羽绒服" id="text">
+                </div>
+                <div>
+                    <span class="icon iconfont icon-gengduo-01"></span>
+                </div>
+            </div>
+        </header>
+        <main>
+            <section class="section">
+                <div class="div">
+                    <ul class="ul">
+                        <li>全部</li>
+                        <li>天猫</li>
+                        <li>店铺</li>
+                        <li>淘宝经验</li>
+                        <li>全部</li>
+                        <li>天猫</li>
+                        <li>店铺</li>
+                        <li>淘宝经验</li>
+                    </ul>
+                </div>
+                <div class="main-content">
+                    <div class="ol">
+                        <ol>
+                            <li>综合</li>
+                            <li>销量</li>
+                            <li>视频</li>
+                            <li>帅选</li>
+                        </ol>
+                    </div>
+                    <div class="content" id="content"></div>
+                </div>
+            </section>
+        </main>
+        <footer></footer>
+    </div>
+    <script src="./scripts/libs/axaj.js"></script>
+    <script src="./scripts/libs/jquery-3.3.1.js"></script>
+    <script>
+        var text = document.getElementById('text');
+        var content=document.getElementById('content');
+        text.addEventListener('input', function () {
+            var val = text.value;
+
+            ajax({
+                url: "/api/list?name=" + val,
+                dataType:'json',
+                success: function (data) {
+                    var html='';
+                    data.data.forEach(function(i,val){
+                       i.forEach(function(j,ele){
+                           console.log(ele)
+                            html +=`<div>
+                                    <img src="${j.images}" alt="">
+                                    <h4>${j.name}</h4>
+                                    <p><span>广告</span><b>新品</b><s>杭州</s></p>
+                                    <p>￥<span>399</span>1887人付款</p>
+                                </div>`
+                       })
+                       content.innerHTML=html
+                    })
+         
+                }
+            })
+        })
+
+        $.ajax({
+            url: "./scripts/index.json",
+            success: function (data) {
+                var data=eval("("+data+")");
+                $.each(data,function (i, val) {
+                    $.each(val.item,function (j, ele) {
+                        var html =`<div>
+                                    <img src="${ele.images}" alt="">
+                                    <h4>${ele.name}</h4>
+                                    <p><span>广告</span><b>新品</b><s>杭州</s></p>
+                                    <p>￥<span>399</span>1887人付款</p>
+                                </div>`
+                        $('.content').append(html)
+                    })
+                })
+            }
+        })
+    </script>
+</body>
+
+</html>
